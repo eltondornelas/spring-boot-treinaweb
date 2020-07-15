@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"></meta>
+<!-- para utilizar thymeleaf, todas as tags precisam ser fechadas para não ocorrer erro -->
+<!-- a tag meta por padrão não vem com o fechamento, então precisa fechá-la para não dar erro-->
+<title>Meu App SpringBoot</title>
+</head>
+<body>
+	<span th:text="'Mensagem do servidor: ' + ${mensagem}"></span>
+	<!-- na tag html é necessário informar qual o xmlns (xml namespace) e como foi colocado o "th" precisa utilizar ele antes do comando -->
+</body>
+</html>
