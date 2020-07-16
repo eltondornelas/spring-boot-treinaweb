@@ -5,12 +5,17 @@
 	<!-- para utilizar thymeleaf, todas as tags precisam ser fechadas para não ocorrer erro -->
 	<!-- a tag meta por padrão não vem com o fechamento, então precisa fechá-la para não dar erro-->
 	<title>Meu App SpringBoot</title>
-	<link rel="stelysheet" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+	<link rel="stelysheet" href="/webjars/bootstrap/css/bootstrap.css"/>
 	<script src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
 </head>
 <body>
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+	<!-- seletor = :: -->
+	
 	<span th:text="'Mensagem do servidor: ' + ${mensagem}"></span>
 	<!-- na tag html é necessário informar qual o xmlns (xml namespace) e como foi colocado o "th" precisa utilizar ele antes do comando -->
 	<input type="text" class="form-control" />
+	
+	<div th:replace="fragmentos/fragmentos :: footer"></div>
 </body>
 </html>
