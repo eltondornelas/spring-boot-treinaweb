@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+	<meta charset="UTF-8"></meta>
+	<title>TreinaWeb Spring Boot - Inserção de Instituições</title>
+	<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+	<div th:replace="fragmentos/fragmentos :: header"></div>
+	
+	<div class="container">
+		<h2>Criação de nova instituição</h2>
+		<form class="form-horizontal" action="/instituicoes/inserir" method="post" th:object="${instituicao}">
+		<!-- th:object é o objeto que esta manipulando e que será enviado para o método -->
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="txt-nome">Nome da instituição:</label>
+					<!-- com o for="txt-nome" ao clicar no label ele aponta para o input com esse id, é uma boa pratica de acessibilidade -->
+					<input type="text" class="form-control" id="txt-nome" th:field="*{nome}" />
+					<!-- como ele já sabe que o objeto manipulado é instituição, basta colocar o *{nome_attr} qye ele já entende -->
+				</div>
+			</div>	
+					
+			<div class="row">
+				<div class="form-group col-md-6">					
+					<label for="txt-endereco">Endereço da instituição:</label>
+					<input type="text" class="form-control" id="txt-endereco" th:field="*{endereco}" />
+				</div>
+			</div>
+			<input type="submit" value="Salvar!" class="btn btn-default" />
+		</form>
+	</div>
+	
+	<div th:replace="fragmentos/fragmentos :: footer"></div>
+	<script type="text/javascript" src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
+</body>
+</html>

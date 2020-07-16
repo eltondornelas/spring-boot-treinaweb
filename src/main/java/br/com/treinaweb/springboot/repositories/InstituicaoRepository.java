@@ -1,4 +1,4 @@
-package br.com.treinaweb.springboot.repository;
+package br.com.treinaweb.springboot.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
