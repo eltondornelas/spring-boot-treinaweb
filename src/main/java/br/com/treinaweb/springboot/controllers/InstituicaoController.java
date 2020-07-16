@@ -1,6 +1,7 @@
 package br.com.treinaweb.springboot.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.com.treinaweb.springboot.entidades.Instituicao;
@@ -69,5 +71,19 @@ public class InstituicaoController {
 		instituicaoRepository.delete(id);
 		
 		return "redirect:/instituicoes/index";
+	}
+	
+	@GetMapping({"/pesquisarPorNome/{nome}", "/pesquisarPorNome/"})
+	public @ResponseBody List<Instituicao> pesquisarPorNome(@PathVariable Optional<String> nome) {
+//		esse GetMapping funciona para ambas rotas, caso o param "nome" venha em branco ele vai concatenar transformando na segunda rota, evitando possíveis erros
+//		como o param é opcional, é interessante utilizar o Optional para encapsular possíveis situações de parametros
+//		o ResponseBody vai serializar a lista dentro da resposta da requisição para um json
+//		o formato de retorno pode ser alterado no cliente (browser) pelo content
+		
+		if (nome.isPresent()) {
+			return instituicaoRepository.findByNomeContaining(nome.get());
+		} else {
+			return instituicaoRepository.findAll();
+		}
 	}
 }

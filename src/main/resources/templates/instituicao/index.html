@@ -10,7 +10,16 @@
 		<div class="container">
 			<h2>Lista de instituições cadastradas</h2>
 			<a href="/instituicoes/inserir" class="btn btn-default"> Criar nova instituição...</a>
-			<table class="table">
+			
+			<div class="row">
+				<div class="form-group col-md-12">
+					<label for="txt-pesquisa-instituicao">Instituição a ser pesquisada:</label>
+					<input type="text" class="form-control" id="txt-pesquisa-instituicao" />
+					<button type="button" class="btn btn-default" id="btn-pesquisa-instituicao">Pesquisar...</button>
+				</div>
+			</div>	
+			
+			<table class="table" id="tbl-instituicoes">
 				<thead>
 					<tr>
 						<th>Nome da instituição</th>
@@ -25,7 +34,7 @@
 						<td th:text="${instituicao.nome}"></td>
 						<td th:text="${instituicao.endereco}"></td>
 						<td>
-							<a th:href="@{/instituicoes/editar/{id}(id=${instituicao.id})}">Editar</a>
+							<a th:href="@{/instituicoes/editar/{id}(id=${instituicao.id})}">Editar |</a>
 							<a th:href="@{/instituicoes/excluir/{id}(id=${instituicao.id})}">Excluir</a>
 							<!-- o @/instituicoes é o nome do controlador que esta com o RequestMapping -->
 						</td>
@@ -37,5 +46,41 @@
 	<div th:replace="fragmentos/fragmentos :: footer"></div>
 	
 	<script type="text/javascript" src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
+	<script type="text/javascript">
+		// o ready garante que a execução vai ocorrer depois que o DOM estiver todo pronto, evitando possíveis erros
+		$(document).ready(function() {
+			
+			$('#btn-pesquisa-instituicao').click(function() {
+				// disparando a requisição ajax
+				$.ajax({
+					method: 'GET',
+					url: '/instituicoes/pesquisarPorNome/' + $('#txt-pesquisa-instituicao').val(),
+					// OBS: input não possui texto, possui valor. quem possui texto é um label como exemplo.
+					// success e error -> callbacks
+					success: function(data) {
+						// caso sucesso vai receber a lista de instituicao serializada em json
+						$('#tbl-instituicoes tbody > tr').remove();
+						// $() -> é um seletor; $.function/method -> executa algo
+						$.each(data, function() {
+							$('#tbl-instituicoes tbody').append(
+								'<tr>' +
+								'	<td>' + this.nome + '</td>' +
+								'	<td>' + this.endereco + '</td>' +
+								'	<td>' +
+								'		<a href="/instituicoes/editar/' + this.id + '">Editar</a> | ' +
+								'		<a href="/instituicoes/excluir/' + this.id + '">Excluir</a>' +
+								'	</td>' + 
+								'</tr>'
+								// o this vai representar a instituicao (data) que esta sofrendo o iterator no momento
+							);
+						});
+					},
+					error: function() {
+						alert('Não foi possível executar a pesquisa')
+					} 
+				});
+			});
+		});
+	</script>
 </body>
 </html>
